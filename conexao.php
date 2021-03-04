@@ -24,4 +24,3 @@ $createTableSql = '
 ';
 
 $pdo->exec($createTableSql);
-// $pdo->exec('CREATE TABLE students (id SERIAL, name TEXT, birth_date TEXT);');
