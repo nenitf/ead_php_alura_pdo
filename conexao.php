@@ -1,5 +1,27 @@
 <?php
 
-$pdo = new PDO("pgsql:host=localhost;port=5432;dbname=ead_php_alura_pdo;user=postgres;password=123456");
+use Alura\Pdo\Infrastructure\Persistence\ConnectionCreator;
+require_once 'vendor/autoload.php';
 
-$pdo->exec('CREATE TABLE students (id SERIAL, name TEXT, birth_date TEXT);');
+$pdo = ConnectionCreator::createConnection();
+
+$createTableSql = '
+    CREATE TABLE IF NOT EXISTS students (
+        id SERIAL,
+        name TEXT,
+        birth_date TEXT,
+        PRIMARY KEY (id)
+    );
+
+    CREATE TABLE IF NOT EXISTS phones (
+        id SERIAL,
+        area_code TEXT,
+        number TEXT,
+        student_id INT,
+        PRIMARY KEY (id),
+        FOREIGN KEY(student_id) REFERENCES students(id)
+    );
+';
+
+$pdo->exec($createTableSql);
+// $pdo->exec('CREATE TABLE students (id SERIAL, name TEXT, birth_date TEXT);');
